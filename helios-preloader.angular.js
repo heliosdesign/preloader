@@ -170,7 +170,9 @@ return {
     whenReady : whenReady,
 
     on: on,
-    off: off
+    off: off,
+
+    complete: complete
 }
 
     }]);
