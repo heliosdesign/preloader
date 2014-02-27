@@ -1,0 +1,21 @@
+{
+  "name": "audioMixer",
+  "version": "0.1.12",
+  "homepage": "https://github.com/heliosdesign/audioMixer",
+  "authors": [
+    "Helios Design Labs"
+  ],
+  "description": "Web Audio API mixer library",
+  "main": "dist/audioMixer.js",
+  "license": "MIT",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "demo",
+    "source",
+    "gulpfile.js",
+    "package.json"
+  ]
+}
