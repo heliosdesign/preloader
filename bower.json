@@ -1,12 +1,13 @@
 {
-  "name": "audioMixer",
-  "version": "0.1.12",
-  "homepage": "https://github.com/heliosdesign/audioMixer",
+  "name": "helios-preloader",
+  "version": "0.1.1",
+  "homepage": "https://github.com/heliosdesign/helios-preloader",
   "authors": [
-    "Helios Design Labs"
+    "Helios Design Labs",
+    "iainmcampbell"
   ],
   "description": "Web Audio API mixer library",
-  "main": "dist/audioMixer.js",
+  "main": "helios-audio-mixer.js",
   "license": "MIT",
   "private": false,
   "ignore": [

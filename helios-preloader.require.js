@@ -2,8 +2,6 @@ define(['jquery'], function($){
 
     var parallel_max = 5,
     parallel_current = 0,
-    // index    = -1,
-    // loaded   = 0,
 
     manifest = {},
     index    = {},
@@ -58,7 +56,7 @@ var start = function(set){
     load(set);
 
 
-    trigger('start', manifest);
+    // trigger('start', set, manifest[set] );
 };
 
 
@@ -82,7 +80,7 @@ var load = function(set){
                 file.callback = undefined;
             }
 
-            trigger('progress', file.filename)
+            // trigger('progress', file.filename)
 
             loaded[set] += 1;
             if( loaded[set] >= manifest[set].length ) {
@@ -90,7 +88,7 @@ var load = function(set){
                 
                 console.log('[Preloader] set "%s" complete %s/%s', set, loaded[set], manifest[set].length)
                 complete[set] = true;
-                trigger('complete', set);
+                trigger( set + '-complete' );
 
                 return;
             }
@@ -110,8 +108,6 @@ var load = function(set){
 
 
 
-
-
 // ********************************************************
 
 var getPath = function(name){
@@ -123,41 +119,49 @@ var getPath = function(name){
     };
 }
 
-var whenReady = function(set, name, callback){
+var whenReady = function( opts ){
 
-    if(typeof callback !== 'function') return;
+    // opts: { set, file, callback }
 
-    var file;
+    if(typeof opts.callback !== 'function') return;
+    if( ! manifest[opts.set] ) return;
 
-    for (var i = manifest[set].length - 1; i >= 0; i--) {
-        if(manifest[set][i].filename === name) {
-            file = manifest[set][i];
-            break;
+    if( opts.file ){
+
+        var file;
+
+        for (var i = manifest[opts.set].length - 1; i >= 0; i--) {
+            if(manifest[opts.set][i].filename === opts.file) {
+                file = manifest[opts.set][i];
+                break;
+            }
+        };
+
+        if(!file) {
+            console.warn('Can’t add ready callback, no file filed "%s" exists.', opts.file)
+            return;
         }
-    };
 
-    if(!file) {
-        console.warn('Can’t add ready callback, no file named "%s" exists.', name)
-        return;
+        if(file.ready === true) opts.callback(); // do it now
+        else                    file.callback = opts.callback; // store for delayed execution
+
+    } else {
+
+        if(complete[opts.set] === true) opts.callback();
+        else                            on(opts.set + '-complete', opts.callback);
+
     }
 
-    console.log('whenready : %O', file)
-
-    if(file.ready === true) callback(); // do it now
-    else                    file.callback = callback; // store for delayed execution
-
+    
+    
 }
 
 return {
     start : start,
-
     add : add,
 
-    getPath : getPath,
+    // getPath : getPath,
     whenReady : whenReady,
-
-    on: on,
-    off: off,
 
     complete: complete
 }
