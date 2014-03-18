@@ -24,6 +24,12 @@ angular.module('heliosPreloader', ['ng'])
     complete = {},
     audioType;
 
+var debug = false;
+
+var log = function(msg){
+    if(debug) console.log(msg);
+}
+
 // Events
 
 var on = function( type, callback ){
@@ -46,6 +52,8 @@ var trigger = function( type ){
 
 var add = function(set, path, filename){
 
+    if(!path) return;
+
     if( ! manifest[set] ) {
         manifest[set] = [];
         index[set] = -1;
@@ -64,7 +72,7 @@ var add = function(set, path, filename){
 var start = function(set){
 
 
-    console.log('[Preloader] start "%s" -> %O', set, manifest[set])
+    log('[Preloader] start "%s" -> %O', set, manifest[set]);
 
     load(set);
 
@@ -99,7 +107,7 @@ var load = function(set){
             if( loaded[set] >= manifest[set].length ) {
                 if(complete[set]) return;
                 
-                console.log('[Preloader] set "%s" complete %s/%s', set, loaded[set], manifest[set].length)
+                log('[Preloader] set "%s" complete %s/%s', set, loaded[set], manifest[set].length);
                 complete[set] = true;
                 trigger( set + '-complete' );
 
@@ -134,8 +142,6 @@ var getPath = function(name){
 
 var whenReady = function( opts ){
 
-    // opts: { set, file, callback }
-
     if(typeof opts.callback !== 'function') return;
     if( ! manifest[opts.set] ) return;
 
@@ -155,8 +161,13 @@ var whenReady = function( opts ){
             return;
         }
 
-        if(file.ready === true) opts.callback(); // do it now
-        else                    file.callback = opts.callback; // store for delayed execution
+        if(file.ready === true) {
+            console.log('DO IT NOW')
+            opts.callback(); // do it now
+        } else {
+            console.log('STORE IT')
+            file.callback = opts.callback; // store for delayed execution
+        }
 
     } else {
 
@@ -170,13 +181,12 @@ var whenReady = function( opts ){
 }
 
 return {
-    start : start,
     add : add,
-
-    // getPath : getPath,
+    start : start,
     whenReady : whenReady,
+    complete: complete,
 
-    complete: complete
+    log : log
 }
 
     }]);

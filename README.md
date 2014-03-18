@@ -10,15 +10,19 @@ Simple but useful preloader library: add sets of files and set completion callba
 1. Create a set of files.
 
    ```
-   preloader.add('catvid', 'videos/cat.webm', 'videos');
-   preloader.add('dogvid', 'videos/dog.webm', 'videos');
+   // set, path, name
+   preloader.add('videos', 'videos/cat.webm', 'cat');
+   preloader.add('videos', 'videos/dog.webm', 'dog');
    ```
 
 2. Set a callback to run after your set is loaded.
 	
 	```
-   preloader.whenReady( 'videos', function(set){
-   	   console.log('Videos loaded!');
+   preloader.whenReady({
+	   set: 'videos', 
+	   callback: function(set){
+	   	   console.log('Videos loaded!');
+	   }
    })
    ```
 3.  Set a callback to run after a specific file is loaded.
@@ -26,7 +30,7 @@ Simple but useful preloader library: add sets of files and set completion callba
   	```
    preloader.whenReady({
        set: 'videos',
-       file: 'dogvid',
+       file: 'dog',
        callback: function(){
 	       console.log('HELLO THIS IS DOG');
        }
@@ -35,5 +39,7 @@ Simple but useful preloader library: add sets of files and set completion callba
 
 4. Load your set.
 
-   `preloader.start('videos')`
+   ```
+   preloader.start('videos')`
+   ```
 
