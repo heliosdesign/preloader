@@ -36,8 +36,18 @@ Simple but useful preloader library: add sets of files and set completion callba
        }
    });
    ```
+   
+4. Build a progress bar.
 
-4. Load your set.
+	```
+	preloader.on('progress',function(progress){
+		console.log( Math.round(100*progress.percent) + '% ' + progress.file );
+	})
+	
+	```
+
+
+5. Load your set.
 
    ```
    preloader.start('videos')`

@@ -101,7 +101,10 @@ var load = function(set){
                 file.callback = undefined;
             }
 
-            // trigger('progress', file.filename)
+            trigger('progress', {
+                'file': file.filename,
+                'percent': ( loaded[set] / manifest[set].length )
+            });
 
             loaded[set] += 1;
             if( loaded[set] >= manifest[set].length ) {
@@ -181,10 +184,13 @@ var whenReady = function( opts ){
 }
 
 return {
-    add : add,
-    start : start,
-    whenReady : whenReady,
-    complete: complete,
+    add:       add,
+    start:     start,
+    whenReady: whenReady,
+    complete:  complete,
+
+    on: on,
+    off: off,
 
     log : log
 }
