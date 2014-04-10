@@ -1,4 +1,4 @@
-var parallel_max = 5,
+var parallel_max = 6,
     parallel_current = 0,
 
     manifest = {},
@@ -150,10 +150,8 @@ var whenReady = function( opts ){
         }
 
         if(file.ready === true) {
-            console.log('DO IT NOW')
             opts.callback(); // do it now
         } else {
-            console.log('STORE IT')
             file.callback = opts.callback; // store for delayed execution
         }
 
